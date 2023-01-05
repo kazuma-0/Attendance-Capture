@@ -1,19 +1,9 @@
 import puppeteer from "puppeteer";
 import * as cron from "node-cron";
-const users = [
-  {
-    username: "21becsd009",
-    password: "852003",
-  },
-  {
-    username: "21becsd065",
-    password: "11122002",
-  },
-  //   {
-  //     username: "21becsd031",
-  //     password: "11122002",
-  //   },
-];
+import dotenv from "dotenv";
+dotenv.config();
+const users = JSON.parse(process.env.USERS);
+console.log(users[0].username);
 const capture = async ({ username, password }) => {
   const browser = await puppeteer.launch({
     defaultViewport: {
@@ -27,8 +17,8 @@ const capture = async ({ username, password }) => {
     "http://karpagam.edu.in/Automation/studentOnline.do?param=login&Id=1"
   );
 
-  await page.type("#rollNo", "21becsd009");
-  await page.type("#password", "852003");
+  await page.type("#rollNo", username);
+  await page.type("#password", password);
   await page.click("[value=Login");
   await page.waitForNetworkIdle();
   await page.evaluate(() => {
@@ -49,19 +39,11 @@ const capture = async ({ username, password }) => {
   });
   await browser.close();
 };
-
-// cron.schedule("0 2 * * 1-6", () => {
-//   users.forEach((user) => {
-//     capture({
-//       username: user.username,
-//       password: user.password,
-//     });
-//   });
-// });
-
-users.forEach(async (user) => {
-  await capture({
-    username: user.username,
-    password: user.password,
+cron.schedule("0 2 * * 1-6", () => {
+  users.forEach((user) => {
+    capture({
+      username: user.username,
+      password: user.password,
+    });
   });
 });
