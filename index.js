@@ -3,7 +3,6 @@ import * as cron from "node-cron";
 import dotenv from "dotenv";
 dotenv.config();
 const users = JSON.parse(process.env.USERS);
-console.log(users[0].username);
 const capture = async ({ username, password }) => {
   const browser = await puppeteer.launch({
     defaultViewport: {
