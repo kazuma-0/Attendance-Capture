@@ -5,6 +5,8 @@ dotenv.config();
 const users = JSON.parse(process.env.USERS);
 const capture = async ({ username, password }) => {
   const browser = await puppeteer.launch({
+    headless: false,
+    executablePath: "/usr/bin/google-chrome",
     defaultViewport: {
       height: 1080,
       width: 1980,
@@ -44,5 +46,12 @@ cron.schedule("0 2 * * 1-6", () => {
       username: user.username,
       password: user.password,
     });
+  });
+});
+
+users.forEach((user) => {
+  capture({
+    username: user.username,
+    password: user.password,
   });
 });
