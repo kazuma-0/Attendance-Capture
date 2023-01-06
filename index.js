@@ -7,6 +7,7 @@ const capture = async ({ username, password }) => {
   const browser = await puppeteer.launch({
     headless: false,
     executablePath: "/usr/bin/google-chrome",
+    args: ["--no-sandbox"],
     defaultViewport: {
       height: 1080,
       width: 1980,
