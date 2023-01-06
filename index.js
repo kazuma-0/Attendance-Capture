@@ -5,7 +5,6 @@ dotenv.config();
 const users = JSON.parse(process.env.USERS);
 const capture = async ({ username, password }) => {
   const browser = await puppeteer.launch({
-    headless: false,
     executablePath: "/usr/bin/google-chrome",
     args: ["--no-sandbox"],
     defaultViewport: {
